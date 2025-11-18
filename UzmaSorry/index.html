@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>I'm Sorry...</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #ffe6ea;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    #box {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 18px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    #imgBox {
+        width: 260px;
+        height: 260px;
+        border-radius: 12px;
+        object-fit: cover;
+        margin-bottom: 15px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 18px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.2s;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+    }
+
+    #noBtn {
+        background: #ccc;
+        position: relative;
+    }
+</style>
+</head>
+<body>
+
+<div id="box">
+    <img id="imgBox" src="./images/image1.gif" alt="">
+    <p id="text">Babe i am sorry...forgive me!</p>
+    <button id="yesBtn">Ok</button>
+    <button id="noBtn">No</button>
+</div>
+
+<script>
+let clickCount = 0;
+
+const text = document.getElementById("text");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const imgBox = document.getElementById("imgBox");
+
+// Text per stage
+const stages = [
+    "Babe plzzz 🥺",
+    "Munnaaaaa plss 😢",
+    "Think again...really you won't? 🥹",
+    "As you wish 😏"
+];
+
+// GIF per stage
+const stageImages = [
+    "./images/image2.gif",
+    "./images/image3.gif",
+    "./images/image4.gif",
+    "./images/image5.gif"
+];
+
+// YES response
+yesBtn.onclick = () => {
+    text.textContent = "Thank you sweetu Uzmaaa... I’m really sorry ❤️";
+    imgBox.src = "./images/image7.gif"; // final image after yes (add your own)
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+};
+
+// NO button
+noBtn.onclick = () => {
+    clickCount++;
+
+    if (clickCount <= 4) {
+        text.textContent = stages[clickCount - 1];
+        imgBox.src = stageImages[clickCount - 1];
+    }
+
+    if (clickCount === 4) {
+        makeNoButtonRun();
+    }
+};
+
+function makeNoButtonRun() {
+    noBtn.style.position = "absolute";
+
+    document.addEventListener("mousemove", (e) => {
+        if (clickCount < 4) return;
+
+        const rect = noBtn.getBoundingClientRect();
+        const distance = Math.hypot(
+            e.clientX - (rect.left + rect.width / 2),
+            e.clientY - (rect.top + rect.height / 2)
+        );
+
+        if (distance < 130) {
+            const x = Math.random() * (window.innerWidth - 120);
+            const y = Math.random() * (window.innerHeight - 120);
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+        }
+    });
+}
+</script>
+
+</body>
+</html>
